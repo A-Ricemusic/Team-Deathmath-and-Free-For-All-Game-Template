@@ -43,7 +43,7 @@ local function OnDisplayVictory(winningTeam)
 			WinningFrame.Text = " "..winningTeam.TeamColor.Name
 			else
 			local teamPlayers = winningTeam:GetPlayers()
-			winningPlayer = winningTeam[1]
+			local winningPlayer = winningTeam[1]
 			WinningFrame.Text =" "..winningPlayer.Name
 			end
 			WinningFrame.Visible = true
