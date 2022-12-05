@@ -1,3 +1,4 @@
+local UserInputService = game:GetService("UserInputService")
 -- Weapons Service
 -- Username
 -- October 25, 2022
@@ -5,11 +6,15 @@
 
 
 
-
 CollectionService = game:GetService("CollectionService")
-
+UserInputService = game:GetService("UserInputService")
 local WeaponsService = {Client = {}}
 			--make DI
+
+			function WeaponsService:LoadEvents()
+				local EventService = self.Services.Core.EventService
+				return EventService
+			end
 
 			local partsWithId = {}
 			local awaitRef = {}
@@ -86,15 +91,25 @@ local WeaponsService = {Client = {}}
 				end
 			end
 
-			function addComas(str)
-				return #str % 3 == 0 and str:reverse():gsub("(%d%d%d)", "%1,"):reverse():sub(2) or str:reverse():gsub("(%d%d%d)", "%1,"):reverse()
-			end
 
 			function DestroyTag(Enemy)
 				if Enemy ~= nil then
 					local tag = Enemy:FindFirstChild("Player_Tag")
 					if tag ~= nil then tag:Destroy() end
 				end
+			end
+
+			local function FindGameItem(RightHand)
+
+				local Children = RightHand:GetChildren()
+				local GameItem = nil
+					for _, Child in pairs(Children) do
+						if CollectionService:HasTag(Child,"GameItem") then
+							GameItem = Child
+							return GameItem
+						end
+					end
+				
 			end
 
 			local function CreateObject(hit,Damage)
@@ -106,7 +121,9 @@ local WeaponsService = {Client = {}}
 				Obj.Material = Enum.Material.Neon
 				Obj.Transparency = 1
 				-- Data
-				Obj.Position = hit:FindFirstAncestorOfClass("Model").PrimaryPart.Position + Vector3.new(math.random(-1.6,1.6),5,math.random(-1.6,1.6))
+				local HitModel = hit:FindFirstAncestorOfClass("Model")
+				if not HitModel then return end
+				Obj.Position = HitModel.PrimaryPart.Position + Vector3.new(math.random(-1.6,1.6),5,math.random(-1.6,1.6))
 				-- Behavior
 				Obj.Anchored = true
 				Obj.CanCollide = false
@@ -117,9 +134,9 @@ local WeaponsService = {Client = {}}
 				-- Billboard Gui
 				local Gui = script.BillboardGui:Clone()
 				Gui.Adornee = ObjModel:FindFirstChild("Part")
-				Gui.TextLabel.Text = addComas(tostring(Damage)).." damage"
+				Gui.TextLabel.Text = Damage
 				Gui.Parent = ObjModel
-
+				
 				local ObjPos = Instance.new("BodyPosition")
 				ObjPos.Parent = Obj
 				ObjPos.Position = Vector3.new(0,7.85,0)
@@ -127,45 +144,48 @@ local WeaponsService = {Client = {}}
 					Obj.Transparency = i
 					Gui.TextLabel.TextTransparency = i
 					Gui.TextLabel.TextStrokeTransparency = i
-					wait()
+					task.wait()
 				end
-				wait(0.50)
+				task.wait(0.50)
 				for i = 0,1,0.1 do
 					Obj.Transparency = i
 					Gui.TextLabel.TextTransparency = i
 					Gui.TextLabel.TextStrokeTransparency = i
-					wait()
+					task.wait()
 				end
 				return ObjModel
 			end
 
-			function WeaponsService.Client:HitBox(Player,WeaponTag,HitBoxSize)
+			function WeaponsService.Client:HitBox(player,WeaponTag,HitBoxSize)
 				local Hitbox = Instance.new("Part")
 				Hitbox.Name = WeaponTag
 				game:GetService("CollectionService"):AddTag(Hitbox,"Weapon")
 				local ObjectValue = Instance.new('ObjectValue')
 				ObjectValue.Name = "Creator"
 				ObjectValue.Parent = Hitbox
-				ObjectValue.Value = Player
+				ObjectValue.Value = player
 				Hitbox.Size = HitBoxSize
-				Hitbox.CFrame = Player.Character.PrimaryPart.CFrame * CFrame.new(0,0,-5)
+				Hitbox.Position = player.Character.PrimaryPart.Position + (player.Character.PrimaryPart.CFrame.LookVector * 5)
 				Hitbox.Anchored = true
 				Hitbox.CanCollide = false
 				Hitbox.CastShadow = false
-				Hitbox.Transparency = .6
+				Hitbox.Transparency = 1
 				Hitbox.Material = Enum.Material.ForceField
 				Hitbox.CanQuery = false
 				Hitbox.Parent = workspace
-				game:GetService('Debris'):AddItem(Hitbox,0.2)
+				game:GetService('Debris'):AddItem(Hitbox,0.5)
 				Hitbox.Destroying:Connect(function()
 					game:GetService("CollectionService"):RemoveTag(Hitbox,"Weapon")
 				end)
-
+				
 			end
 
-			function WeaponsService:SwordSetUp(Character,WeaponTag)
-				if Character == nil then return end
-				local RightHand = Character:WaitForChild("RightHand")
+			function WeaponsService.Client:SwordSetUp(plr,WeaponTag)
+				task.wait(0.5)
+				local EventService = WeaponsService:LoadEvents() 
+				if WeaponTag == "" then return end
+				local char = plr.Character
+				local RightHand = char:FindFirstChild("RightHand") 
 				local WeaponEquipped = RightHand:GetChildren()
 				for _,Child in pairs(WeaponEquipped) do
 					if CollectionService:HasTag(Child,"GameItem") then
@@ -173,10 +193,12 @@ local WeaponsService = {Client = {}}
 						Child:Destroy()
 					end
 				end
-				--local SwordSetUpModule = require(game:GetService('ServerStorage').Aero.Modules.SetUpSwordModule)
-				--SwordSetUpModule:Sword(RightHand)
+				local leaderstats = plr:FindFirstChild("leaderstats")
+				if not leaderstats then return end
+				local SwordStat = leaderstats:FindFirstChild("Sword")
+
 				local Weapon = game:GetService("ReplicatedStorage").GameItems:FindFirstChild(WeaponTag)
-				if Weapon then
+				if not Weapon then return end
 					local Handle = Weapon:Clone()
 					Handle.Parent = RightHand
 					local weld = Instance.new("ManualWeld")
@@ -184,29 +206,47 @@ local WeaponsService = {Client = {}}
 					weld.Part1 = RightHand
 					weld.C0 = weld.Part1.CFrame:ToObjectSpace(weld.Part1.CFrame) - Vector3.new(0,-0.15,-0.3)
 					weld.Parent = weld.Part0
-					local h = Character:WaitForChild("Humanoid")
+					local h = char:WaitForChild("Humanoid")
 					h.HealthDisplayType = "AlwaysOn"
 					h.NameOcclusion = Enum.NameOcclusion.NoOcclusion
-					h.Died:Connect(function()
-						Handle:Destroy()
-					end)
-				end
+					CollectionService:AddTag(Handle,"GameItem")
+					EventService:FireSwordSetUpClient(plr,WeaponTag)
+						h.Died:Connect(function()
+							Handle:Destroy()
+							CollectionService:RemoveTag(Handle,"GameItem")
+						end)
 			end
-
+			
+			
 			function WeaponsService:BuySword(SwordPawn)
+				task.wait(0.1)
 				local IsSwordPawn = CollectionService:HasTag(SwordPawn,'SwordPawn')
 				if not IsSwordPawn then return end
+				local P= nil
 				local PathConfig = require(game:GetService("ReplicatedStorage").Aero.Shared.Config.PathConfigModule)
 				local WeaponConfig = require(PathConfig[SwordPawn.Name])
 				local ProximityPrompt = SwordPawn.ProximityPrompt
-				ProximityPrompt.ActionText = WeaponConfig.DisplayName
-				ProximityPrompt.ObjectText = WeaponConfig.Description
-				ProximityPrompt.Triggered:Connect(function(Player)
-					local Character = Player.Character
-					WeaponsService:SwordSetUp(Character,SwordPawn.Name)
-				end)
+					ProximityPrompt.ActionText = "Buy "..WeaponConfig.DisplayName
+					ProximityPrompt.ObjectText = WeaponConfig.Description
+					ProximityPrompt.GamepadKeyCode = Enum.KeyCode.DPadUp
+					ProximityPrompt.KeyboardKeyCode = Enum.KeyCode.C
+					ProximityPrompt.Triggered:Connect(function(player)
+						if not player then return end
+						local Character = player.Character
+						local PrimaryPart = Character:FindFirstChild("HumanoidRootPart")
+						if PrimaryPart == nil then return end
+						local RightHand = Character:FindFirstChild("RightHand")
+						if not RightHand then return end
+						local GameItem = FindGameItem(RightHand)
+						if GameItem ~= nil then
+							CollectionService:RemoveTag(GameItem,"GameItem")
+							GameItem:Destroy()	
+						end
+						CreateObject(PrimaryPart, "successful purchase")
+						WeaponsService.Client:SwordSetUp(player,SwordPawn.Name)
+	
+					end)
 			end
-
 
 function WeaponsService:Start()
 	Scan(root, script)

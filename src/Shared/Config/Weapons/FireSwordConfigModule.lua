@@ -1,30 +1,30 @@
--- Fire Sword Module
+-- Bronze Sword Config Module
 -- Username
--- October 25, 2022
+-- September 29, 2022
 
 
-
+mult = 3
 local FireSwordWeaponConfig = {}
 FireSwordWeaponConfig.TagName = "FireSword"
 FireSwordWeaponConfig.DisplayName = "Fire Sword"
 FireSwordWeaponConfig.HumanoidToKill = ("Humanoid")
-	FireSwordWeaponConfig.WalkSpeed = 22
+	FireSwordWeaponConfig.WalkSpeed = 14
 	FireSwordWeaponConfig.JumpHeight = 12
-	FireSwordWeaponConfig.MaxDamage = 30
-	FireSwordWeaponConfig.MinDamage = 25
+	FireSwordWeaponConfig.MaxDamage = 7 * mult
+	FireSwordWeaponConfig.MinDamage = 5 * mult
 	FireSwordWeaponConfig.AbilityDamage = 10
 	FireSwordWeaponConfig.Cooldown = 0.5
-	FireSwordWeaponConfig.Cost = 0
+	FireSwordWeaponConfig.Cost = 200
 	FireSwordWeaponConfig.ProjectileAnimation = "rbxassetid://10149103707"
 	FireSwordWeaponConfig.ProjectileName = "BasicFireball"
 	FireSwordWeaponConfig.AbilityForce = 100
 	FireSwordWeaponConfig.AbilityCooldown = 1
-	FireSwordWeaponConfig.AbilityDebrisTimer = 2
+	FireSwordWeaponConfig.AbilityDebrisTimer = 1
 	FireSwordWeaponConfig.PlayerKnockbackVelocity = 35
 	FireSwordWeaponConfig.ComboResetTimer = 1.2
-	FireSwordWeaponConfig.HitBoxSize = Vector3.new(10,3,7)
+	FireSwordWeaponConfig.HitBoxSize = Vector3.new(15,5,10)
 	FireSwordWeaponConfig.AbilityName = "Projectile"
-	FireSwordWeaponConfig.Description = "Lightweight and versitile sword, Ability: Fire Ball with BaseDamage: "..tostring(FireSwordWeaponConfig.AbilityDamage)..", Cooldown: "..tostring(FireSwordWeaponConfig.AbilityCooldown)
+	FireSwordWeaponConfig.Description = "Medium Weight Sword, Ability: Aniba's Fire (Shoots a big fireball)"
 
 	-- Animations & Sounds
 	FireSwordWeaponConfig.SwingAnimations = {

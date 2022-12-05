@@ -1,41 +1,41 @@
--- Blaze Sword Weapon Config Module
+-- Bronze Sword Config Module
 -- Username
--- October 25, 2022
+-- September 29, 2022
 
 
-
-
+mult = 3
 local BlazeSwordWeaponConfig = {}
 BlazeSwordWeaponConfig.TagName = "BlazeSword"
 BlazeSwordWeaponConfig.DisplayName = "Blaze Sword"
 BlazeSwordWeaponConfig.Description = "Medium Weight Sword that does good damage. Special Ability Cast Heavy Fireball"
 BlazeSwordWeaponConfig.HumanoidToKill = ("Humanoid")
-	BlazeSwordWeaponConfig.WalkSpeed = 15
+	BlazeSwordWeaponConfig.WalkSpeed = 10
 	BlazeSwordWeaponConfig.JumpHeight = 8
-	BlazeSwordWeaponConfig.MaxDamage = 50
-	BlazeSwordWeaponConfig.MinDamage = 35
-	BlazeSwordWeaponConfig.AbilityDamage = 25
-	BlazeSwordWeaponConfig.Cooldown = 1
-	BlazeSwordWeaponConfig.Cost = 0
+	BlazeSwordWeaponConfig.MaxDamage = 10 * mult
+	BlazeSwordWeaponConfig.MinDamage = 7 * mult
+	BlazeSwordWeaponConfig.AbilityDamage = 70
+	BlazeSwordWeaponConfig.Cooldown = 0.8
+	BlazeSwordWeaponConfig.Cost = 200
 	BlazeSwordWeaponConfig.ProjectileAnimation = "rbxassetid://10149103707"
 	BlazeSwordWeaponConfig.ProjectileName = "BigFireball"
 	BlazeSwordWeaponConfig.AbilityForce = 150
 	BlazeSwordWeaponConfig.AbilityCooldown = 10
-	BlazeSwordWeaponConfig.AbilityDebrisTimer = 4
+	BlazeSwordWeaponConfig.AbilityDebrisTimer = 8
 	BlazeSwordWeaponConfig.PlayerKnockbackVelocity = 50
 	BlazeSwordWeaponConfig.ComboResetTimer = 3
 	BlazeSwordWeaponConfig.HitBoxSize = Vector3.new(12,3,7)
 	BlazeSwordWeaponConfig.AbilityName = "Projectile"
-	BlazeSwordWeaponConfig.Description = "Medium Weight Sword, Ability: Heavy Fireball with BaseDamage: "..tostring(BlazeSwordWeaponConfig.AbilityDamage)..", Cooldown: "..tostring(BlazeSwordWeaponConfig.AbilityCooldown)
+	BlazeSwordWeaponConfig.Description = "Heavy Weight Sword, Ability: Aniba's Wrath (Shoots a big fireball)"
 
 	-- Animations & Sounds
 	BlazeSwordWeaponConfig.SwingAnimations = {
-        'rbxassetid://9991697436', --1
-		'rbxassetid://9991697436', --2
-        'rbxassetid://9991581812', --3
-        'rbxassetid://9991378000', --4
-        'rbxassetid://9991581812', --5
+        'rbxassetid://9991378000', --1
+		'rbxassetid://9991581812', --2
+        'rbxassetid://9991697436', --3
+        'rbxassetid://9991581812', --4
+        'rbxassetid://9991697436', --5
     }
+	
 	BlazeSwordWeaponConfig.Textures = { -- Slash
 	'rbxassetid://8821193347', --1
 	'rbxassetid://8821230983', --2

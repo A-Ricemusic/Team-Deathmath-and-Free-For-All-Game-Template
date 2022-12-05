@@ -1,37 +1,37 @@
--- Heavy Sword Weapon Module
+-- Bronze Sword Config Module
 -- Username
--- October 25, 2022
+-- September 29, 2022
 
 
-
+mult = 3
 local HeavySwordWeaponConfig = {}
 HeavySwordWeaponConfig.TagName = "HeavySword"
 HeavySwordWeaponConfig.DisplayName = "Heavy Sword"
 HeavySwordWeaponConfig.HumanoidToKill = ("Humanoid")
-	HeavySwordWeaponConfig.WalkSpeed = 12
+	HeavySwordWeaponConfig.WalkSpeed = 8
 	HeavySwordWeaponConfig.JumpHeight = 5
-	HeavySwordWeaponConfig.MaxDamage = 60
-	HeavySwordWeaponConfig.MinDamage = 40
+	HeavySwordWeaponConfig.MaxDamage = 15 * mult
+	HeavySwordWeaponConfig.MinDamage = 10 * mult
 	HeavySwordWeaponConfig.AbilityDamage = 10
 	HeavySwordWeaponConfig.Cooldown = 1.5
-	HeavySwordWeaponConfig.Cost = 0
+	HeavySwordWeaponConfig.Cost = 200
 	HeavySwordWeaponConfig.ProjectileAnimation = "rbxassetid://10149103707"
 	HeavySwordWeaponConfig.ProjectileName = "BigFireball"
 	HeavySwordWeaponConfig.AbilityForce = 150
 	HeavySwordWeaponConfig.AbilityCooldown = 30
 	HeavySwordWeaponConfig.AbilityDebrisTimer = 10
-	HeavySwordWeaponConfig.PlayerKnockbackVelocity = 50
+	HeavySwordWeaponConfig.PlayerKnockbackVelocity = 70
 	HeavySwordWeaponConfig.ComboResetTimer = 4
 	HeavySwordWeaponConfig.HitBoxSize = Vector3.new(15,3,10)
 	HeavySwordWeaponConfig.AbilityName = "ForceField"
-	HeavySwordWeaponConfig.Description = "Heavy Weight Sword, Ability: Invincible for "..tostring(HeavySwordWeaponConfig.AbilityDebrisTimer).." Seconds, Cooldown: "..tostring(HeavySwordWeaponConfig.AbilityCooldown)
+	HeavySwordWeaponConfig.Description = "Heavy Weight Sword, Ability: Avida's Aura (Gives player invincibility for a short time, allows player to walk on air in certain places)"
 	-- Animations & Sounds
 	HeavySwordWeaponConfig.SwingAnimations = {
-        'rbxassetid://9991697436', --1
+        'rbxassetid://9991378000', --1
 		'rbxassetid://9991581812', --2
         'rbxassetid://9991697436', --3
-        'rbxassetid://9991378000', --4
-        'rbxassetid://9991581812', --5
+        'rbxassetid://9991581812', --4
+        'rbxassetid://9991697436', --5
     }
 	HeavySwordWeaponConfig.Textures = { -- Slash
 	'rbxassetid://8821193347', --1

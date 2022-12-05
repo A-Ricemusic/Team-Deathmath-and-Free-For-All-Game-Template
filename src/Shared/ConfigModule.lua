@@ -13,7 +13,7 @@ ConfigModule.POINTS_TO_WIN = 50
 ConfigModule.INTERMISSION_DURATION = 15 -- Seconds
 ConfigModule.END_GAME_WAIT = 10 -- Seconds
 ConfigModule.RESPAWN_TIME = 5 -- Seconds
-ConfigModule.GRANT_ASSISTS = true
+ConfigModule.GRANT_ASSISTS = false
 ConfigModule.PLAYER_POINTS_PER_KO = 2
 ConfigModule.PLAYER_POINTS_PER_ASSIST = 1
 

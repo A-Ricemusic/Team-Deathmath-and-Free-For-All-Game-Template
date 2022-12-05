@@ -1,40 +1,39 @@
--- Dagger Config Module
+-- Bronze Sword Config Module
 -- Username
--- October 25, 2022
+-- September 29, 2022
 
 
-
-
-local DaggerConfigModule = {}
-DaggerConfigModule.TagName = "Dagger"
-DaggerConfigModule.DisplayName = "Dagger"
-DaggerConfigModule.HumanoidToKill = ("Humanoid")
-	DaggerConfigModule.WalkSpeed = 25
-	DaggerConfigModule.JumpHeight = 15
-	DaggerConfigModule.MaxDamage = 15
-	DaggerConfigModule.MinDamage = 10
-	DaggerConfigModule.AbilityDamage = 15
-	DaggerConfigModule.Cooldown = 0.3
-	DaggerConfigModule.Cost = 0
-	DaggerConfigModule.ProjectileAnimation = "rbxassetid://10149103707"
-	DaggerConfigModule.ProjectileName = "ThrowingKnife"
-	DaggerConfigModule.AbilityForce = 100
-	DaggerConfigModule.AbilityCooldown = 0.5
-	DaggerConfigModule.AbilityDebrisTimer = 5
-	DaggerConfigModule.PlayerKnockbackVelocity = 5
-	DaggerConfigModule.ComboResetTimer = 1.5
-	DaggerConfigModule.HitBoxSize = Vector3.new(5,3,5)
-	DaggerConfigModule.AbilityName = "Projectile"
-	DaggerConfigModule.Description = "Dagger, great at ranged. Ability: throwing knife with BaseDamage"..tostring(DaggerConfigModule.AbilityDamage)..", Cooldown: "..tostring(DaggerConfigModule.AbilityCooldown)
+mult = 3
+local DaggerWeaponConfig = {}
+DaggerWeaponConfig.TagName = "Dagger"
+DaggerWeaponConfig.DisplayName = "Dagger"
+DaggerWeaponConfig.HumanoidToKill = ("Humanoid")
+	DaggerWeaponConfig.WalkSpeed = 22
+	DaggerWeaponConfig.JumpHeight = 15
+	DaggerWeaponConfig.MaxDamage = 2 * mult
+	DaggerWeaponConfig.MinDamage = 1 * mult
+	DaggerWeaponConfig.AbilityDamage = 7
+	DaggerWeaponConfig.Cooldown = 0.5
+	DaggerWeaponConfig.Cost = 200
+	DaggerWeaponConfig.ProjectileAnimation = "rbxassetid://10149103707"
+	DaggerWeaponConfig.ProjectileName = "ThrowingKnife"
+	DaggerWeaponConfig.AbilityForce = 100
+	DaggerWeaponConfig.AbilityCooldown = 1
+	DaggerWeaponConfig.AbilityDebrisTimer = 0.5
+	DaggerWeaponConfig.PlayerKnockbackVelocity = 5
+	DaggerWeaponConfig.ComboResetTimer = 1.5
+	DaggerWeaponConfig.HitBoxSize = Vector3.new(5,3,5)
+	DaggerWeaponConfig.AbilityName = "Projectile"
+	DaggerWeaponConfig.Description = "Light weight projectile sword, Ability: Exexly daggers(Throws small daggers very quickly)"
 	-- Animations & Sounds
-	DaggerConfigModule.SwingAnimations = {
-        'rbxassetid://9991697436', --1
-		'rbxassetid://9991581812', --2
+	DaggerWeaponConfig.SwingAnimations = {
+        'rbxassetid://9991378000', --1
+		'rbxassetid://11656889243', --2
         'rbxassetid://9991697436', --3
         'rbxassetid://9991378000', --4
-        'rbxassetid://9991581812', --5
+        'rbxassetid://11656887555', --5
     }
-	DaggerConfigModule.Textures = { -- Slash
+	DaggerWeaponConfig.Textures = { -- Slash
 	'rbxassetid://8821193347', --1
 	'rbxassetid://8821230983', --2
 	'rbxassetid://8821246947', --3
@@ -45,9 +44,9 @@ DaggerConfigModule.HumanoidToKill = ("Humanoid")
 	'rbxassetid://8821311218', --8
 	'rbxassetid://8896641723', --9
 	}
-	DaggerConfigModule.AttackSoundIds = {
+	DaggerWeaponConfig.AttackSoundIds = {
 		"rbxasset://sounds\\swordslash.wav",
 	}
 	--] Advanced
 --Send Information to Ability Service
-return DaggerConfigModule
+return DaggerWeaponConfig

@@ -1,30 +1,29 @@
--- Short Sword Config Module
+-- Bronze Sword Config Module
 -- Username
--- October 25, 2022
+-- September 29, 2022
 
 
-
+mult = 3
 local ShortSwordWeaponConfig = {}
 ShortSwordWeaponConfig.TagName = "ShortSword"
 ShortSwordWeaponConfig.DisplayName = "Short Sword"
 ShortSwordWeaponConfig.HumanoidToKill = ("Humanoid")
-	ShortSwordWeaponConfig.WalkSpeed = 20
+	ShortSwordWeaponConfig.WalkSpeed = 15
 	ShortSwordWeaponConfig.JumpHeight = 15
-	ShortSwordWeaponConfig.MaxDamage = 20
-	ShortSwordWeaponConfig.MinDamage = 15
-	ShortSwordWeaponConfig.AbilityRunSpeed = 30
-	ShortSwordWeaponConfig.Cooldown = 0.3
-	ShortSwordWeaponConfig.Cost = 0
+	ShortSwordWeaponConfig.MaxDamage = 5 * mult
+	ShortSwordWeaponConfig.MinDamage = 3 * mult
+	ShortSwordWeaponConfig.AbilityRunSpeed = 45
 	ShortSwordWeaponConfig.ProjectileAnimation = "rbxassetid://10149103707"
-	ShortSwordWeaponConfig.ProjectileName = "BigFireball"
+	ShortSwordWeaponConfig.Cooldown = 0.6
+	ShortSwordWeaponConfig.Cost = 200
 	ShortSwordWeaponConfig.AbilityForce = 150
-	ShortSwordWeaponConfig.AbilityCooldown = 15
+	ShortSwordWeaponConfig.AbilityCooldown = 20
 	ShortSwordWeaponConfig.AbilityDebrisTimer = 5
 	ShortSwordWeaponConfig.PlayerKnockbackVelocity = 10
 	ShortSwordWeaponConfig.ComboResetTimer = 1.5
-	ShortSwordWeaponConfig.HitBoxSize = Vector3.new(7,3,5)
+	ShortSwordWeaponConfig.HitBoxSize = Vector3.new(10,3,10)
 	ShortSwordWeaponConfig.AbilityName = "FastRun"
-	ShortSwordWeaponConfig.Description = "Feather weight Sword that does minimal damage but is fast. Special Ability allows you to sprint for"..tostring(ShortSwordWeaponConfig.AbilityDebrisTimer).." Seconds, Cooldown: "..tostring(ShortSwordWeaponConfig.AbilityCooldown)
+	ShortSwordWeaponConfig.Description ="Light weight sword Ability: Auguadi speed (Allows the player to move faster for a short time)"
 	-- Animations & Sounds
 	ShortSwordWeaponConfig.SwingAnimations = {
         'rbxassetid://9991697436', --1

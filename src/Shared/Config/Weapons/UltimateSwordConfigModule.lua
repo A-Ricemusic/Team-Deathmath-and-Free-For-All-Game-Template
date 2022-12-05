@@ -1,20 +1,20 @@
--- Ulitmate Sword Config Module
+-- Bronze Sword Config Module
 -- Username
--- October 25, 2022
+-- September 29, 2022
 
 
-
+mult = 3
 local UltimateSwordWeaponConfig = {}
 UltimateSwordWeaponConfig.TagName = "UltimateSword"
 UltimateSwordWeaponConfig.DisplayName = "Ultimate Sword"
 UltimateSwordWeaponConfig.HumanoidToKill = ("Humanoid")
-	UltimateSwordWeaponConfig.WalkSpeed = 25
+	UltimateSwordWeaponConfig.WalkSpeed = 30
 	UltimateSwordWeaponConfig.JumpHeight = 12
-	UltimateSwordWeaponConfig.MaxDamage = 40
-	UltimateSwordWeaponConfig.MinDamage = 35
-	UltimateSwordWeaponConfig.AbilityDamage = 20
+	UltimateSwordWeaponConfig.MaxDamage = 15 * mult
+	UltimateSwordWeaponConfig.MinDamage = 15 * mult
+	UltimateSwordWeaponConfig.AbilityDamage = 15
 	UltimateSwordWeaponConfig.Cooldown = 0.5
-	UltimateSwordWeaponConfig.Cost = 0
+	UltimateSwordWeaponConfig.Cost = 10000
 	UltimateSwordWeaponConfig.ProjectileAnimation = "rbxassetid://10149103707"
 	UltimateSwordWeaponConfig.ProjectileName = "BasicFireball"
 	UltimateSwordWeaponConfig.AbilityForce = 100
@@ -22,9 +22,9 @@ UltimateSwordWeaponConfig.HumanoidToKill = ("Humanoid")
 	UltimateSwordWeaponConfig.AbilityDebrisTimer = 2
 	UltimateSwordWeaponConfig.PlayerKnockbackVelocity = 35
 	UltimateSwordWeaponConfig.ComboResetTimer = 1.2
-	UltimateSwordWeaponConfig.HitBoxSize = Vector3.new(10,3,7)
+	UltimateSwordWeaponConfig.HitBoxSize = Vector3.new(15,5,10)
 	UltimateSwordWeaponConfig.AbilityName = "Projectile"
-	UltimateSwordWeaponConfig.Description = "The Best Sword! Ability: Fire Ball with BaseDamage: "..tostring(UltimateSwordWeaponConfig.AbilityDamage)..", Cooldown: "..tostring(UltimateSwordWeaponConfig.AbilityCooldown)
+	UltimateSwordWeaponConfig.Description = "The Best Sword! Ability: Fire of a god (Shoots a fast and powerful Fireball)"
 
 	-- Animations & Sounds
 	UltimateSwordWeaponConfig.SwingAnimations = {
