@@ -8,6 +8,11 @@
 
 local PlayerManagerService = {Client = {}}
 
+function PlayerManagerService:LoadEvents()
+    local EventService = self.Services.Core.EventService
+    return EventService
+end
+
 function PlayerManagerService:Start()
 
     local EventsModule = self.Shared.EventsModule
@@ -26,6 +31,7 @@ local ScoreArray = { }
 
 -- Functions/Methods
 function PlayerManagerService:OnPlayerAdded(player)
+	local EventService = PlayerManagerService:LoadEvents()
     local DisplayManager = self.Services.Core.DisplayManagerService
     local Configurations = self.Shared.ConfigModule
 	-- Setup leaderboard stats
@@ -48,15 +54,18 @@ function PlayerManagerService:OnPlayerAdded(player)
 	player.CharacterAdded:connect(function(character)
 		character:WaitForChild("Humanoid").Died:connect(function()
 			PlayerManagerService:PlayerDied(player)
-			wait(Configurations.RESPAWN_TIME)
+			task.wait(Configurations.RESPAWN_TIME)
 			if GameRunning then
 				player:LoadCharacter()
+				EventService:OnCharacterAddedFireClient(player)
 			end
 		end)
 	end)
 	
 	if PlayersCanSpawn then
+		task.wait(Configurations.RESPAWN_TIME)
 		player:LoadCharacter()
+		EventService:OnCharacterAddedFireClient(player)
 	else
 		DisplayManager:StartIntermission(player)
 	end
@@ -120,8 +129,10 @@ function PlayerManagerService:ClearPlayerScores()
 end
 
 function PlayerManagerService:LoadPlayers()
+	local EventService = PlayerManagerService:LoadEvents()
 	for _, player in pairs(Players:GetPlayers()) do
 		player:LoadCharacter()
+		EventService:OnCharacterAddedFireClient(player)
 	end
 end
 

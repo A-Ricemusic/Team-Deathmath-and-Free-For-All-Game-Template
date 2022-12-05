@@ -1,17 +1,18 @@
--- Weapon Controller
+local UserInputService = game:GetService("UserInputService")
+-- Sword Controller
 -- Username
--- October 25, 2022
-
+-- October 4, 2022
 
 
 
 local WeaponController = {}
 
-function WeaponController:Start()
+function WeaponController:OnSetUp(WeaponTag)
+    
     local Player = game.Players.LocalPlayer
-Player.CharacterAdded:Connect(function(Character)
+    local Character = Player.Character
     local RightHand = Character:WaitForChild("RightHand")
-RightHand.ChildAdded:Connect(function(Weapon)
+    local Weapon = RightHand:WaitForChild(WeaponTag)
     local IsTagged = game:GetService('CollectionService'):HasTag(Weapon, "GameItem")
     if not IsTagged then return end
     local WeaponTag = Weapon.Name
@@ -20,45 +21,30 @@ RightHand.ChildAdded:Connect(function(Weapon)
     local Combo = 1
     local Anim = Instance.new('Animation')
     Anim.Parent = script
-    local Walk = WeaponConfig.WalkSpeed
-    local Jump = WeaponConfig.JumpHeight
+    local Walk = WeaponConfig.WalkSpeed 
+    local Jump = WeaponConfig.JumpHeight 
     local Tween = game:GetService("TweenService")
     local SwingAnimations = WeaponConfig.SwingAnimations
     local ProjectileAnimation = WeaponConfig.ProjectileAnimation
-    local Textures = WeaponConfig.Textures
     local ContextActionService = game:GetService('ContextActionService')
-    local LastProjectile = 0      
+    local LastAbility = 0      
     local LastSwing = 0
     local Humanoid = Player.Character:FindFirstChildOfClass("Humanoid")  
     Humanoid.WalkSpeed = Walk
     Humanoid.JumpHeight = Jump
-    
+
 local function Ability(ActionName,input)
-        if ActionName == "Ability" and input == Enum.UserInputState.Begin and tick() - LastProjectile >= WeaponConfig.AbilityCooldown then      
-			LastProjectile = tick()
-			if WeaponConfig.AbilityName == "Projectile" then
-			Humanoid.WalkSpeed = 0
-			end
+        if ActionName == "Ability" and input == Enum.UserInputState.Begin and tick() - LastAbility >= WeaponConfig.AbilityCooldown then      
+            LastAbility = tick()
             Anim.AnimationId = ProjectileAnimation
-            Humanoid:LoadAnimation(Anim):Play() 
+            Humanoid.Animator:LoadAnimation(Anim):Play() 
             self.Controllers.AbilityController.Ability(WeaponConfig)
-            Humanoid.WalkSpeed = WeaponConfig.WalkSpeed
        end
     end
 
-local function SlashEffect(EffectSlash,HumanoidRootPart)
-            if WeaponConfig.SlashEffect ~= nil then
-                WeaponConfig.SlashEffect(Character)
-            else
-        wait(0.2)
-        EffectSlash.CFrame = HumanoidRootPart.CFrame * CFrame.new(0,0,-3) * CFrame.Angles(0,math.rad(0),math.rad(0))
-        Tween:Create(EffectSlash, TweenInfo.new(.3), {CFrame = EffectSlash.CFrame * CFrame.Angles(0,math.rad(0),0), Transparency = 1}):Play()
-            end
-end
 
 local function slash(comboN)
     local HumanoidRootPart = Character.HumanoidRootPart
-    local Count = 1
     if Character == Character then
         self.Services.WeaponsService:HitBox(WeaponTag,WeaponConfig.HitBoxSize)
         local BodyVelocity = Instance.new("BodyVelocity")
@@ -75,6 +61,16 @@ local function slash(comboN)
     end
 end
 
+local function StyleButtons()
+    if UserInputService.GamepadEnabled or UserInputService.KeyboardEnabled or UserInputService.VREnabled then return end
+    local abilityButton = ContextActionService:GetButton("Ability")
+    abilityButton.Position = UDim2.new(0.4,0,-0.5,0)    
+    abilityButton.ImageColor3 = Color3.new(0,0,1)
+    local slashButton = ContextActionService:GetButton("Slash")
+    slashButton.Position = UDim2.new(0.4,0,0,0)    
+    slashButton.ImageColor3 = Color3.new(0,1,0)   
+end
+
 local function WeaponActivated(actionName,input)
     if (actionName == "Slash") and tick() - LastSwing >= WeaponConfig.Cooldown and input == Enum.UserInputState.Begin then   
         if tick() - LastSwing > WeaponConfig.ComboResetTimer then
@@ -84,9 +80,9 @@ local function WeaponActivated(actionName,input)
             Humanoid.WalkSpeed = 0
             Humanoid.JumpHeight = 0
             Anim.AnimationId = SwingAnimations[Combo]
-            Humanoid:LoadAnimation(Anim):Play()
+            Humanoid.Animator:LoadAnimation(Anim):Play()
             local sound = Instance.new("Sound")
-            sound.Parent = script
+            sound.Parent = Humanoid
             sound.SoundId = 'rbxassetid://9119749145'
             sound:Play()
             sound:Destroy()
@@ -100,17 +96,68 @@ local function WeaponActivated(actionName,input)
             Humanoid.JumpHeight = Jump --game Jump
         end
 end
-    ContextActionService:BindAction("Slash",WeaponActivated,false,Enum.UserInputType.MouseButton1,Enum.KeyCode.ButtonR2,Enum.UserInputType.Touch)
-    ContextActionService:BindAction("Ability",Ability,true,Enum.KeyCode.E,Enum.KeyCode.ButtonY)         
 
+local IsEquipped = true
+local lastEquippedChange = 0
+local function EquippedHandler(actionName,input)
+    if actionName == "toggle-equip" and input == Enum.UserInputState.Begin and tick() - lastEquippedChange >= 0.5 then      
+   lastEquippedChange = tick()
+   if IsEquipped then
+    IsEquipped = false
+    ContextActionService:UnbindAction("Slash")
+    ContextActionService:UnbindAction("Ability")
+    Humanoid.WalkSpeed = game.StarterPlayer.CharacterWalkSpeed
+    Humanoid.JumpHeight = game.StarterPlayer.CharacterJumpHeight
+    Weapon.Mesh.Transparency = 1
+   else
+    IsEquipped = true
+    ContextActionService:BindAction("Slash",WeaponActivated,true,Enum.UserInputType.MouseButton1,Enum.KeyCode.ButtonR2,Enum.KeyCode.LeftMeta)
+    ContextActionService:BindAction("Ability",Ability,true,Enum.KeyCode.E,Enum.KeyCode.ButtonY)
+   StyleButtons()
+    Humanoid.WalkSpeed = Walk 
+    Humanoid.JumpHeight = Jump 
+    Weapon.Mesh.Transparency = 0
+    end
+    end
+end
+    ContextActionService:BindAction("Slash",WeaponActivated,true,Enum.UserInputType.MouseButton1,Enum.KeyCode.ButtonR2,Enum.KeyCode.LeftMeta)
+    ContextActionService:BindAction("Ability",Ability,true,Enum.KeyCode.E,Enum.KeyCode.ButtonY)
+    StyleButtons()
+    ContextActionService:BindAction("toggle-equip",EquippedHandler,true,Enum.KeyCode.Q,Enum.KeyCode.ButtonX)      
+    local toggleEquipButton = ContextActionService:GetButton("toggle-equip")
+    if not UserInputService.GamepadEnabled and not UserInputService.KeyboardEnabled and not UserInputService.VREnabled then
+    toggleEquipButton.Position = UDim2.fromScale(0.7,-0.5)
+    toggleEquipButton.ImageColor3 = Color3.fromRGB(255, 174, 0) 
+    end
 Humanoid.Died:Connect(function()
     ContextActionService:UnbindAction("Slash")
     ContextActionService:UnbindAction("Ability")
+    local leaderstats = Player:FindFirstChild("leaderstats")
+	if not leaderstats then return end
+	local SwordStat = leaderstats:FindFirstChild("Sword")
+	if not SwordStat then return end
+	local RankStat = SwordStat:FindFirstChild("Rank")
+	if not RankStat then return end
+	local connection
+	connection = Player.CharacterAdded:Connect(function(Character)
+		self.Services.WeaponsService:SwordSetUp(SwordStat.Value)
+		connection:Disconnect()
+	end)
 end)
 
-end)
-end)
+
+
+function WeaponController:UnbindAction()
+    ContextActionService:UnbindAction("Slash")
+    ContextActionService:UnbindAction("Ability")
+    Humanoid.WalkSpeed = game.StarterPlayer.CharacterWalkSpeed
+    Humanoid.JumpHeight = game.StarterPlayer.CharacterJumpHeight
+
 end
 
+
+
+end
+    
 
 return WeaponController

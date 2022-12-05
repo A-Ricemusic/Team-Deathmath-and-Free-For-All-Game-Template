@@ -8,8 +8,8 @@ local ConfigModule = {}
 
 ConfigModule.ROUND_DURATION = 60 * 10-- Seconds
 ConfigModule.MIN_PLAYERS = 1
-ConfigModule.TEAMS = false
-ConfigModule.POINTS_TO_WIN = 500
+ConfigModule.TEAMS = true
+ConfigModule.POINTS_TO_WIN = 50
 ConfigModule.INTERMISSION_DURATION = 15 -- Seconds
 ConfigModule.END_GAME_WAIT = 10 -- Seconds
 ConfigModule.RESPAWN_TIME = 5 -- Seconds
