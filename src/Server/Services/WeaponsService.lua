@@ -288,7 +288,11 @@ function WeaponsService:Start()
 				if CollectionService:HasTag(descendant,'Ability') then
 					Damage = WeaponConfig.AbilityDamage
 				end
-				Enemy:TakeDamage(Damage)
+				local mobileAddedDamage = 0
+				if not UserInputService.GamepadEnabled and not UserInputService.KeyboardEnabled and not UserInputService.VREnabled then
+					mobileAddedDamage = 15
+				 end
+				Enemy:TakeDamage(Damage + mobileAddedDamage)
 				self.Services.Core.PlayerManagerService:PlayerHit(HitPlayer,Player)
 				--Knockback
 				if HumanoidRootPart:FindFirstChild("BodyVelocity") ~= nil then					
