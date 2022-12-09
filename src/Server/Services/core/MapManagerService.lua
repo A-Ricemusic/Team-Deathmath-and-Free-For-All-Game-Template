@@ -55,6 +55,10 @@ function MapManagerService:GetSelectedMap()
 		end
 			mapSelectedClone.Parent = game.Workspace
 			mapSelectedClone = nil
+	for key,value in pairs(mapTable) do
+		mapTable[key] = 0
+	end
+	mapSelected = nil
 	
 end
 
